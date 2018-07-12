@@ -1,0 +1,8 @@
+{% extends 'views/base/base.html' %}
+
+{% block content %}
+    <form class="form-signin" action="/forgot" method="post" autocomplete="off">
+      <input type="email" name="email" placeholder="Введите email" class="form-control" required>
+      <button class="btn btn-lg btn-secondary btn-block" type="submit">ОТПРАВИТЬ</button>
+    </form>
+{% endblock %}

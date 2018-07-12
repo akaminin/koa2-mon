@@ -1,0 +1,20 @@
+{% extends 'views/base/base.html' %}
+
+{% block content %}
+    <form class="form-signin" action="/reset" method="post" autocomplete="off">
+      <input type="password" name="pass1" placeholder="Пароль" class="form-control" required>
+      <input type="password" name="pass2" placeholder="Пароль" class="form-control" required>
+      <button class="btn btn-lg btn-secondary btn-block" type="submit">ОБНОВИТЬ</button>
+    </form>
+  <script>
+    const form = document.querySelector('form')
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      if (form.pass1.value !== form.pass2.value) {
+        alert(`Password doesn't match the confirmation.`)
+      } else {
+        form.submit()
+      }
+    }, false)
+  </script>
+{% endblock %}

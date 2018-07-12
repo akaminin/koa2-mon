@@ -1,0 +1,27 @@
+{% extends 'views/base/base.html' %}
+
+{% block content %}
+  {% include 'views/base/header.html' %}
+
+    <form class="form-signin" action="/update" method="post" autocomplete="off">
+      <input type="password" name="pass" placeholder="Старый пароль" class="form-control" required>
+      <input type="password" name="pass1" placeholder="Новый пароль" class="form-control" required>
+      <input type="password" name="pass2" placeholder="Новый пароль" class="form-control" required>
+      <button class="btn btn-lg btn-secondary btn-block" type="submit">ОБНОВИТЬ</button>
+    </form>
+  <script>
+    const form = document.querySelector('form')
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      if (form.pass1.value !== form.pass2.value) {
+          toastr.options = {
+          "positionClass": "toast-bottom-right",
+          "preventDuplicates": false,
+          };
+          toastr["error"]("Пароли не совпадают!");
+      } else {
+        form.submit()
+      }
+    }, false)
+  </script>
+{% endblock %}

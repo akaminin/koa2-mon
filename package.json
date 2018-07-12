@@ -1,0 +1,35 @@
+{
+  "name": "koa2-mon",
+  "version": "1.0.0",
+  "description": "koa2 login with generic-session",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "koa2",
+    "router",
+    "session"
+  ],
+  "author": "akaminin",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-generic-session": "^2.0.0",
+    "koa-logger": "^3.2.0",
+    "koa-redis": "^3.0.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.0.2",
+    "mongoose": "^4.11.9",
+    "nodemailer": "^4.1.0",
+    "nunjucks": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}

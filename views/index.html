@@ -1,0 +1,11 @@
+{% extends 'views/base/base.html' %}
+
+{% block content %}
+  {% include 'views/base/header.html' %}
+
+  {% if name %}
+  {% include 'views/content.html' %}
+  {% else %}
+    <h1 class="home-title">Welcome to here 😄</h1>
+  {% endif %}
+{% endblock %}
