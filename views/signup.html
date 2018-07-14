@@ -2,9 +2,10 @@
 
 {% block content %}
     <form class="form-signin" action="/signup" method="post" autocomplete="off">
-      <input id="inputEmail" name="email" class="form-control" placeholder="Логин" type="email" required>
-	  <input type="text" name="username" placeholder="Имя" class="form-control" required> 
-      <input id="inputPassword" name="password" class="form-control" placeholder="Пароль" type="password" required>
+      <input id="inputEmail" name="email" class="form-control" placeholder="Email" type="email" required>
+      <input id="inputRole" name="text" class="form-control" placeholder="Роль" type="text" required>
+	  <input id="inputName" name="username" type="text" placeholder="Имя" class="form-control" required> 
+      <input id="inputPassword" name="password" class="form-control" placeholder="Пароль" type="password" pattern="[A-Za-z0-9]{8,}" required>
       <button class="btn btn-lg btn-secondary btn-block" type="submit">РЕГИСТРАЦИЯ</button>
     </form>
 {% endblock %}

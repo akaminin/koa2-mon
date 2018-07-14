@@ -22,28 +22,51 @@ const checkInput = (email, pass) => {
     const user = await User.findOne({ email })
     if (user) {
       const { _id, status, password } = user
-      audit.user = user._id
-      audit.username = user.name
       if (status) {
         const isIdentical = compareSync(pass, password)
         if (isIdentical) {
+            // Save audit
+          audit.user = user._id
+          audit.username = user.name
           audit.status = 'Succes'
           await audit.save()
           resolve(_id)
         } else {
+           const inTimes = await Audit.find({
+            email: email,
+             status: 'Incorrect password',
+             createdAt : {
+              '$gte': Date.now() - 120000,
+              '$lt': Date.now()
+             }
+          }).count()
+          await console.log(inTimes)
+          if (inTimes > 4) {
+          user.status = false
+          await user.save()
+          audit.user = user._id
+          audit.username = user.name
+          audit.status = 'The email is block'
+          await audit.save()
+          } else {
+          audit.user = user._id
+          audit.username = user.name
           audit.status = 'Incorrect password'
           await audit.save()
-          reject('Incorrect email or password.')
+        }
+          reject(`Неверный пароль! До блокировки пользователя осталось попыток:  ${5 - inTimes}`)
         }
       } else {
+        audit.user = user._id
+        audit.username = user.name
         audit.status = 'The email is not active'
         await audit.save()
-        reject('The email is not active.')
+        reject('Пользователь заблокирован, обратитесь к администратору!')
       }
     } else {
       audit.status = 'Incorrect email'
       await audit.save()
-      reject('Incorrect email or password.')
+      reject('Неверный логин или пароль.')
     }
   })
 }
@@ -59,6 +82,8 @@ export const login = async (ctx, next) => {
     ctx.redirect('/')
 
   } catch (error) {
-    ctx.throw(400, error)
+    const data = { error: error}
+    await ctx.render('message', data)
+   // ctx.throw(400, error)
   }
 }

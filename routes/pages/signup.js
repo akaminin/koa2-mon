@@ -12,7 +12,7 @@ const isExist = email => {
   return new Promise(async (resolve, reject) => {
     const user = await User.findOne({ email })
     if (user) {
-      reject('The email has been registered.')
+      reject('Пользователь с указанными данными уже зарегистрирован!')
     } else {
       resolve()
     }
@@ -39,18 +39,16 @@ export const signup = async (ctx, next) => {
   //console.log(url);
   const option = {
     address: email,
-    subject: 'Account activation',
+    subject: 'Активация пользователя',
     html: `
-      <h1>A demo based on koa</h1>
-      <p>Thank you for registering. But you still need a step.</p>
-      <p>Click the following link to activate your account.</p>
+      <p>Для активации перейдите по ссылке ниже:</p>
       <a href="${url}">${url}</a>
     `
   }
   try {
     const response = await sendEmail(option)
 
-    // Save account to database when email sent.
+    // После отправки сообщения, записываем данные в базу.
     const user = new User({
       email,
       name: username,
@@ -71,7 +69,7 @@ export const active = async ctx => {
   const { verify } = ctx.params
 
   if (!/^[0-9a-z]{64}$/.test(verify)) {
-    ctx.throw(400, 'Activation code error')
+    ctx.throw(400, 'Ошибка кода активации')
     return
   }
   try {
@@ -81,7 +79,7 @@ export const active = async ctx => {
         if (!result.status) {
           result.status = true
           await result.save()
-          resolve('Activation successful')
+          resolve('Пользователь активирован!')
         } else {
           reject('Activation code has been used.')
         }
