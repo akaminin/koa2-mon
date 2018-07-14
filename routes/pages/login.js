@@ -22,25 +22,20 @@ const checkInput = (email, pass) => {
     const user = await User.findOne({ email })
     if (user) {
       const { _id, status, password } = user
+      audit.user = user._id
+      audit.username = user.name
       if (status) {
         const isIdentical = compareSync(pass, password)
         if (isIdentical) {
-            // Save audit
-          audit.user = user._id
-          audit.username = user.name
           audit.status = 'Succes'
           await audit.save()
           resolve(_id)
         } else {
-          audit.user = user._id
-          audit.username = user.name
           audit.status = 'Incorrect password'
           await audit.save()
           reject('Incorrect email or password.')
         }
       } else {
-        audit.user = user._id
-        audit.username = user.name
         audit.status = 'The email is not active'
         await audit.save()
         reject('The email is not active.')
